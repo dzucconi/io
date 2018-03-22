@@ -1,6 +1,6 @@
 <template>
   <div class='Editor'>
-    <textarea class='Input' v-model="input" autofocus />
+    <textarea class='Input' v-model="input" ref='input' autofocus />
     <div class='Output'>{{ output }}</div>
   </div>
 </template>
@@ -34,9 +34,23 @@ export default {
 .Editor {
   display: flex;
   height: 100vh;
+}
 
-  > * {
-    flex: 1;
+.Input,
+.Output {
+  flex: 1;
+  font-size: 2.25rem;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  padding: 0.5em 0.75em;
+}
+
+.Input {
+  border: none;
+  background-color: #eee;
+
+  &:focus {
+    outline: none;
   }
 }
 </style>
