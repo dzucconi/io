@@ -26,7 +26,6 @@ const map = (fn, j = '') => x => split(x).map(fn).join(j);
 const zip = rows => rows[0].map((_, i) => rows.map(row => row[i]));
 
 const PROCESSES = [
-  { name: 'upcase', fn: x => x.toUpperCase() },
   { name: 'sticky', fn: map(c => c[Math.random() > 0.5 ? 'toUpperCase' : 'toLowerCase']()) },
   { name: 'ascii', fn: x => map(c => c.charCodeAt(0) + ', ')(x).slice(0, -2) },
   {
