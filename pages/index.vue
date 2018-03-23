@@ -8,7 +8,7 @@
         v-for='p in processes'
         :key='p.name'
       >
-        {{ p.name }}
+        {{ key(p.name) }}
       </a>
     </nav>
     <Editor :process='active.fn' ref='editor' />
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import crypto from 'crypto';
 import axios from 'axios';
 import debounce from 'debounce-promise';
 
@@ -89,6 +90,12 @@ export default {
     changeProcess(p) {
       this.active = p;
       this.$nextTick(() => this.$refs.editor.$refs.input.focus())
+    },
+
+    key(x) {
+      const shasum = crypto.createHash('sha1');
+      shasum.update(x);
+      return shasum.digest('hex').slice(0, 7);
     },
   },
 };
