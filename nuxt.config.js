@@ -13,17 +13,18 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  /*
-  ** Customize the progress bar color
-  */
-  loading: { color: '#3B8070' },
-  /*
-  ** Build configuration
-  */
+
+  loading: { color: '#000000' },
+
+  plugins: [
+    '~/plugins/vue-async-computed',
+  ],
+
   build: {
-    /*
-    ** Run ESLint on save
-    */
+    vendor: [
+      'vue-async-computed',
+    ],
+
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({

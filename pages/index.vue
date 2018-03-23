@@ -16,6 +16,9 @@
 </template>
 
 <script>
+import axios from 'axios';
+import debounce from 'debounce-promise';
+
 import Editor from '~/components/Editor';
 
 const split = x => x.split('');
@@ -55,6 +58,19 @@ const PROCESSES = [
       const leaves = normalized.map(token => token.split(''));
       return zip(leaves).map(token => token.join('')).join('');
     },
+  },
+  {
+    name: 'phonemes',
+    fn: debounce(text => {
+      return axios.post('https://api.corrasable.com/conversion/phonemes', { text })
+        .then(({ data: lines }) => {
+          return lines.map(words => {
+            return words.map(phonemes => {
+              return phonemes.join('&nbsp;')
+            }).join(' &nbsp; &nbsp; ');
+          }).join('<br>');
+        });
+    }, 250),
   },
 ];
 
