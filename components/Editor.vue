@@ -64,10 +64,7 @@ export default {
 .Output {
   flex: 1;
   flex-basis: 50%;
-  font-size: 2.25rem;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  padding: 0.5em 0.75em;
+  font-size: 1.5rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -76,19 +73,25 @@ export default {
 
 .Input {
   border: none;
-  background-color: #eee;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 
   &:focus {
     outline: none;
   }
 }
 
+.Output {
+  font-family: 'Times New Roman', Times, serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
 .Spinner {
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 50%;
-  margin: 0.25em;
+  left: 0;
   font-size: 2rem;
+  line-height: 1;
   line-height: 0;
 }
 </style>
