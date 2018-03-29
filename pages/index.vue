@@ -47,7 +47,7 @@ const PROCESSES = [
       x.split(' ').map(word =>
         `${word}${split(word).reverse().join('')}`).join(' '),
   },
-  { name: 'array', fn: x => split(x) },
+  { name: 'array', fn: x => split(x).filter(x => x.match(/\w/)).join(',').toLowerCase() },
   { name: 'doubled', fn: x => split(x).map(x => x + x).join('') },
   {
     name: 'braid',
@@ -66,8 +66,12 @@ const PROCESSES = [
         .then(({ data: lines }) => {
           return lines.map(words => {
             return words.map(phonemes => {
-              return phonemes.join('&nbsp;')
-            }).join(' &nbsp; &nbsp; ');
+              return `
+                <span style='margin-right: 0.75em;'>
+                  ${phonemes.join('&nbsp;')}
+                </span>
+              `;
+            }).join(' ');
           }).join('<br>');
         });
     }, 250),
@@ -104,6 +108,7 @@ export default {
 <style lang='scss'>
 .Index {
   display: flex;
+  margin: 2em;
 }
 
 .Nav {
@@ -111,10 +116,11 @@ export default {
 
   &__item {
     display: block;
-    padding: 0.4em 1.5em 0.5em 0.75em;
+    padding: 0.4em 1em 0.5em 1em;
     cursor: pointer;
     font-size: 0.8125rem;
     border-radius: 0.33em;
+    text-align: center;
 
     &:hover {
       background-color: #eee;
