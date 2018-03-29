@@ -17,65 +17,33 @@
 
 <script>
 import crypto from 'crypto';
-import axios from 'axios';
-import debounce from 'debounce-promise';
 
 import Editor from '~/components/Editor';
 
-const split = x => x.split('');
-const map = (fn, j = '') => x => split(x).map(fn).join(j);
-const zip = rows => rows[0].map((_, i) => rows.map(row => row[i]));
+import { split, map, zip } from '~/sketches/utils';
+
+import sticky from '~/sketches/sticky';
+import ascii from '~/sketches/ascii';
+import xxx from '~/sketches/xxx';
+import sorted from '~/sketches/sorted';
+import reversed from '~/sketches/reversed';
+import mirrored from '~/sketches/mirrored';
+import array from '~/sketches/array';
+import doubled from '~/sketches/doubled';
+import braid from '~/sketches/braid';
+import phonemes from '~/sketches/phonemes';
 
 const PROCESSES = [
-  { name: 'sticky', fn: map(c => c[Math.random() > 0.5 ? 'toUpperCase' : 'toLowerCase']()) },
-  { name: 'ascii', fn: x => map(c => c.charCodeAt(0) + ', ')(x).slice(0, -2) },
-  {
-    name: 'xxx',
-    fn: x => {
-      if (x.length) {
-        return `x${map((x => x.toUpperCase()), 'x')(x)}x`
-      }
-
-      return '';
-    },
-  },
-  { name: 'sorted', fn: x => split(x).sort().join('') },
-  { name: 'reversed', fn: x => split(x).reverse().join('') },
-  {
-    name: 'mirrored',
-    fn: x =>
-      x.split(' ').map(word =>
-        `${word}${split(word).reverse().join('')}`).join(' '),
-  },
-  { name: 'array', fn: x => split(x).filter(x => x.match(/\w/)).join(',').toLowerCase() },
-  { name: 'doubled', fn: x => split(x).map(x => x + x).join('') },
-  {
-    name: 'braid',
-    fn: x => {
-      const tokens = x.split(' ');
-      const upTo = tokens.reduce((a, b) => a.length > b.length ? a : b).length;
-      const normalized = tokens.map(token => token + Array(upTo - (token.length - 1)).join(' '));
-      const leaves = normalized.map(token => token.split(''));
-      return zip(leaves).map(token => token.join('')).join('');
-    },
-  },
-  {
-    name: 'phonemes',
-    fn: debounce(text => {
-      return axios.post('https://api.corrasable.com/conversion/phonemes', { text })
-        .then(({ data: lines }) => {
-          return lines.map(words => {
-            return words.map(phonemes => {
-              return `
-                <span style='margin-right: 0.75em;'>
-                  ${phonemes.join('&nbsp;')}
-                </span>
-              `;
-            }).join(' ');
-          }).join('<br>');
-        });
-    }, 250),
-  },
+  sticky,
+  ascii,
+  xxx,
+  sorted,
+  reversed,
+  mirrored,
+  array,
+  doubled,
+  braid,
+  phonemes,
 ];
 
 export default {
@@ -135,5 +103,4 @@ export default {
 .Editor {
   flex: 1;
 }
-
 </style>
